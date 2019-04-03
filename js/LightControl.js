@@ -25,7 +25,7 @@ class LightControl {
         } else {
             this.address = address;
         }
-        this.address = "http://" + this.address + ":888/";
+        this.address = "http://" + this.address + "/";
     }
 
     //this fucntion allows for fethcing information
