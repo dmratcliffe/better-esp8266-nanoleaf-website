@@ -27,4 +27,27 @@ class LightControl {
         }
     }
 
+    //Returns a json array with information
+    //about the settings saved on the ESP
+    //  onSuccess returns <JSON DATA>
+    //  onFailure returns <-1>
+    fetchEssentialStatus(){
+        var ws = new ReconnectingWebsocket('ws://' + this.address + ':81/', ['arduino']);
+
+        ws.onmessage = function(returned){
+            var initialData = returned.data;
+            if(initialData != null){
+                var jsonData = JSON.parse(initialData);
+
+                return jsonData;
+
+            }else{
+
+                return -1;
+
+            }
+        }
+
+    }
+
 }
