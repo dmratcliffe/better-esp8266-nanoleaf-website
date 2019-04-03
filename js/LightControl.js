@@ -20,10 +20,20 @@ class LightControl {
     //if not given an adress assume we are on
     //the esp. Otherwise use the adress given to us.
     constructor(address){
-        if(address == undefined){
+        if(address === undefined){
             this.address = location.hostname;
         }else{
             this.address = address;
         }
+        this.address = "http://" + this.address + "/";
+    }
+
+    fetchInformation(){
+        $.get(this.address + "all", function(data){
+            this.jsonINFO = "{";
+            $.each(data, function(i, f){
+                console.log(f.name + " " + f.value);
+            });
+        });
     }
 }
