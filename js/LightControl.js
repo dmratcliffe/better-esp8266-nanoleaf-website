@@ -34,7 +34,6 @@ class LightControl {
     //passed as the variable
     fetchInformation(callback) {
         $.get(this.address + "all", function (data) {
-            this.jsonINFO = new Array();
             var temp = new Array();
             $.each(data, function (i, f) {
                 //are we looking at an actual value or a section...
