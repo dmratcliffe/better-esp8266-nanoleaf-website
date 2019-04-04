@@ -90,7 +90,7 @@ class LightControl {
      * @return {string} The response string from the server. 
      */
     setterHelper(name, value){
-        $.post(address + name + "?value=" + value, {name: name, value, value, function(data){
+        $.post(this.address + name + "?value=" + value, {name: name, value, value, function(data){
             return data;
         }});
     }

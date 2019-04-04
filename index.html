@@ -278,9 +278,13 @@
             }
         }
       
+        //we want the document to load before we start doing stuff
+        //the fetch information will almost always take longer then document
+        //load so in the future I might compare speeds with it in and out of document load.
         $(document).ready(function () {
             let lights = new LightControl();
             lights.fetchInformation(doneLoading);
+            
         });
 
     </script>
