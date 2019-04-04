@@ -9,6 +9,12 @@
     to elements which made it really hard to change anything
     without digging through the HTML.
 
+        A note on that, they both create a websocket server, however the
+        websocket never connects. Upon further inspection of why this is,
+        I discovered that the websocket is never enabled.
+        Iniside "esp8266-nanoleaf-webserver.ino" lines 486-488
+            This includes all calls to it. Strange.
+
     This class is hopefully more object-oriented :)
 
     My javascript is a little rusty, I might commit mistakes
@@ -17,8 +23,10 @@
 
 class LightControl {
 
-    //if not given an adress assume we are on
-    //the esp. Otherwise use the adress given to us.
+    /**
+     * Constructor for the class. Will simlpy setup the adress variable.
+     * @param {string} address Adress to talk the ardruino, if blank will use location.hostname.
+     */
     constructor(address) {
         if (address === undefined) {
             this.address = location.hostname;
@@ -28,10 +36,14 @@ class LightControl {
         this.address = "http://" + this.address + "/";
     }
 
-    //this fucntion allows for fethcing information
-    //from the esp.
-    //when done, it sends a callback of a json query with all relevant information
-    //passed as the variable
+    /**
+     * Function that uses the "rest" apis on the ESP to find all of the current settings.
+     * Some parsing must be done as they are originally in a format to allow for HTML
+     * generation, but that makes it a pain to re-use for other things.
+     * @param {Function} callback optional: allows for handing of the json by a different function
+     * 
+     * @return {JSON} A nested JSON array that contains all relevant settings.
+     */
     fetchInformation(callback) {
         $.get(this.address + "all", function (data) {
             var temp = new Array();
@@ -69,10 +81,102 @@ class LightControl {
         });
     }
 
-    //reduce redundant code, this should.
+    /**
+     * A simple function to cut down on the amount of $.get() functions.
+     * Formats the string in the expected way provied a name and a value.
+     * @param {string} name The name of the property to be set
+     * @param {int} value The value to be set
+     * 
+     * @return {string} The response string from the server. 
+     */
     setterHelper(name, value){
         $.post(address + name + "?value=" + value, {name: name, value, value, function(data){
             return data;
-        }})
+        }});
     }
+
+    /**
+     * Changes the all leafs functions. This makes it so colors
+     * effect all leafs
+     * @see  setterHelper
+     */
+    setAllLeafs(val){
+        setterHelper("allLeafs", val);
+    }
+
+    /**
+     * Enables / Disables autoplay.
+     * Autoplay cycles through the patterns (including twinkles, I think)
+     * at the timing of the autoPlayDuration
+     * @see  setterHelper
+     */
+    setAutoplay(value){
+        setterHelper("autoplay", value);
+    }
+
+    /**
+     * The duration you see the current pattern in autoplay mode.
+     * @see  setterHelper
+     */
+    setAutoplayDuration(value){
+        setterHelper("autoplayDuration", value);
+    }
+
+    /**
+     * The brightness of the lights.
+     * This accepts a value of 1-255.
+     * We convert a 0-100 into the range of 1-255.
+     * @see  setterHelper
+     */
+    setBrightness(value){
+        //TODO: convert 100 range into 255 range.
+        setterHelper("brightness", value);
+    }
+
+    setCooling(value){
+        setterHelper("cooling", value);
+    }
+
+    setPalette(value){
+        setterHelper("palette", value);
+    }
+
+    setPattern(value){
+        setterHelper("pattern", value);
+    }
+
+    setPower(value){
+        setterHelper("power", value);
+    }
+
+    setSelectedLeaf(value){
+        setterHelper("selectedLeaf", value);
+    }
+
+    setSolidColor(r,b,g){
+        //this is a specail case, we need rgb to set a color...
+        $.post(address + name + "?r=" + r + "&g=" + g + "&b=" + b, {name: name, value, value, function(data){
+            return data;
+        }});
+    }
+
+    setSparking(value){
+        setterHelper("sparking", value);
+    }
+
+    setSpeed(value){
+        setterHelper("speed", value);
+    }
+
+    setTwinkleDensity(value){
+        setterHelper("twinkleDensity", value);
+    }
+
+    setTwinkleSpeed(value){
+        setterHelper("twinkleSpeed", value);
+    }
+
+    //TODO: handle custom patterns, need to look at the code.
+
+
 }
