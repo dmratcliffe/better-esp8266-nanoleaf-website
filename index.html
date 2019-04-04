@@ -93,11 +93,11 @@
                     <input type="range" min="0" max="100" value="100" id="brightness" />
                     <h5>Color</h5>
                     <h6>Hue</h6>
-                    <input type="range" min="0" max="360" value="360" />
+                    <input type="range" min="0" max="360" value="360" id="h" />
                     <h6>Saturation</h6>
-                    <input type="range" min="0" max="100" value="100" />
+                    <input type="range" min="0" max="100" value="100" id="s" />
                     <h6>Value</h6>
-                    <input type="range" min="0" max="100" value="100" />
+                    <input type="range" min="0" max="100" value="100" id="v" />
                     <h6>Selected Leaf (0 is all)</h6>
                     <input type="range" min="0" max="100" value="100" id="selected-leaf" />
                 </div>
@@ -312,6 +312,12 @@
                         lights.setBrightness(objectValue);
                         break;
                     //hue should go here
+                    case 'h':
+                        break;
+                    case 's':
+                        break;
+                    case 'v':
+                        break;
                     case 'selected-leaf':
                         if (objectValue == 0) {
                             lights.setAllLeafs(1);
