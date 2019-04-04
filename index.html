@@ -333,7 +333,28 @@
                 //TODO: this should probably be staggered. some sort of stack? pop off every 300ms
                 lights.fetchInformation(doneLoading);
             });
-            
+
+            $('select').change(function (object) {
+                var tar = object.target;
+                var objectID = tar.id;
+                var objectValue = tar.value;
+                switch (objectID) {
+                    case 'pattern':
+                        //TODO: show twinkles
+                        lights.setPattern(objectValue);
+                        break;
+                    case 'twinkle-type':
+                        lights.setPattern(objectValue);
+                        break;
+                    case 'palette':
+                        lights.setPalette(objectValue);
+                        break;
+                }
+                console.log(tar);
+                console.log(objectID);
+                console.log(objectValue);
+            });
+
         });
 
     </script>
