@@ -82,20 +82,6 @@ class LightControl {
     }
 
     /**
-     * A simple function to cut down on the amount of $.get() functions.
-     * Formats the string in the expected way provied a name and a value.
-     * @param {string} name The name of the property to be set
-     * @param {int} value The value to be set
-     * 
-     * @return {string} The response string from the server. 
-     */
-    setterHelper(name, value){
-        $.post(this.address + name + "?value=" + value, {name: name, value, value, function(data){
-            return data;
-        }});
-    }
-
-    /**
      * Changes the all leafs functions. This makes it so colors
      * effect all leafs
      * @see  setterHelper
@@ -222,5 +208,19 @@ class LightControl {
     //TODO: handle custom patterns, need to look at the code.
     setCustomPattern(value){
         return null;
+    }
+    
+    /**
+     * A simple function to cut down on the amount of $.get() functions.
+     * Formats the string in the expected way provied a name and a value.
+     * @param {string} name The name of the property to be set
+     * @param {int} value The value to be set
+     * 
+     * @return {string} The response string from the server. 
+     */
+    setterHelper(name, value){
+        $.post(this.address + name + "?value=" + value, {name: name, value, value, function(data){
+            return data;
+        }});
     }
 }
