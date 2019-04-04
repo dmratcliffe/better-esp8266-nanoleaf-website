@@ -81,14 +81,14 @@
                         <center>
                             <label>
                                 Off
-                                <input type="checkbox">
+                                <input type="checkbox" id="on-off">
                                 <span class="lever "></span>
                                 On
                             </label>
                         </center>
                     </div>
                     <h6>Brightness</h6>
-                    <input type="range" min="0" max="100" value="100" />
+                    <input type="range" min="0" max="100" value="100" id="brigtness"/>
                     <h5>Color</h5>
                     <h6>Hue</h6>
                     <input type="range" min="0" max="360" value="360" />
@@ -96,6 +96,8 @@
                     <input type="range" min="0" max="100" value="100" />
                     <h6>Value</h6>
                     <input type="range" min="0" max="100" value="100" />
+                    <h6>Selected Leaf (0 is all)</h6>
+                    <input type="range" min="0" max="100" value="100" id="selected-leaf"/>
                 </div>
             </div>
         </div>
@@ -104,86 +106,63 @@
                 <div class="card-content">
                     <h4>Pattern</h4>
                     <label>Select Pattern</label>
-                    <select class="browser-default">
-                        <option value="-1">No Pattern</option>
-                        <option value="0">Pride</option>
-                        <option value="1">Color Waves</option>
-                        <option value="20">Rainbow</option>
-                        <option value="21">Rainbow With Glitter</option>
-                        <option value="22">Solid Rainbow</option>
-                        <option value="23">Confetti</option>
-                        <option value="24">Sinelon</option>
-                        <option value="25">Beat</option>
-                        <option value="26">Juggle</option>
-                        <option value="27">Fire</option>
-                        <option value="28">Water</option>
-                        <option value="29">Custom</option>
-                        <option value=""></option>
+                    <select class="browser-default" id="pattern">
+
                     </select>
 
-                    <!-- Only shows when twinkle is selected-->
-                    <div style="display: none">
+                    <!-- Only show when twinkle is selected-->
+                    <div >
                         <label>Select Twinkle Type</label>
-                        <select class="browser-default">
-                            <option value="2">Rainbow Twinkles</option>
-                            <option value="3">Snow Twinkles</option>
-                            <option value="4">Cloud Twinkles</option>
-                            <option value="5">Incandescent Twinkles</option>
-                            <option value="6">Retro C9 Twinkles</option>
-                            <option value="7">Red &amp; White Twinkles</option>
-                            <option value="8">Blue &amp; White Twinkles</option>
-                            <option value="9">Red, Green &amp; White Twinkles</option>
-                            <option value="10">Fairy Light Twinkles</option>
-                            <option value="11">Snow 2 Twinkles</option>
-                            <option value="12">Holly Twinkles</option>
-                            <option value="13">Ice Twinkles</option>
-                            <option value="14">Party Twinkles</option>
-                            <option value="15">Forest Twinkles</option>
-                            <option value="16">Lava Twinkles</option>
-                            <option value="17">Fire Twinkles</option>
-                            <option value="18">Cloud 2 Twinkles</option>
-                            <option value="19">Ocean Twinkles</option>
+                        <select class="browser-default" id="twinkle-type">
+
                         </select>
                     </div>
 
-                    <!-- Only shows when a color modify - able is selected -->
-                    <div style="display: none">
+                    <!-- Only show when a color modify - able is selected -->
+                    <div >
                         <label>Select Color Pallet</label>
-                        <select class="browser-default">
-                                <option value="0">Rainbow</option>
-                                <option value="1">Rainbow Stripe</option>
-                                <option value="2">Cloud</option>
-                                <option value="3">Lava</option>
-                                <option value="4">Ocean</option>
-                                <option value="5">Forest</option>
-                                <option value="6">Party</option>
-                                <option value="7">Heat</option>
+                        <select class="browser-default" id="pallet">
+
                         </select>
                     </div>
 
                     <!-- Only show if "no patten" is not selected -->
-                    <div style="display: none;">
+                    <div>
                         <h5>Pattern Settings</h5>
                         <!-- This works for all, so never hide it :) -->
                         <h6>Speed</h6>
-                        <input type="range" min="0" max="100" value="100" />
+                        <input type="range" min="0" max="100" value="100" id="pattern-speed"/>
+
+                        <h6>Autoplay</h6>
+                        <div class="switch">
+                                <center>
+                                    <label>
+                                        Off
+                                        <input type="checkbox" id="autoplay-on-off">
+                                        <span class="lever "></span>
+                                        On
+                                    </label>
+                                </center>
+                            </div>
+                        <h6>Autoplay Duration</h6>
+                        <input type="range" min="0" max="100" value="100" id="autplay-duration"/>
 
                         <!-- Related to fire / water I think???-->
                         <div>
                             <h5>Extra Settings</h5>
                             <h6>Cooling</h6>
-                            <input type="range" min="0" max="100" value="100" />
-                            <h6>Sparkling</h6>
-                            <input type="range" min="0" max="100" value="100" />
+                            <input type="range" min="0" max="100" value="100" id="patten-cooling"/>
+                            <h6>sparking</h6>
+                            <input type="range" min="0" max="100" value="100" id="pattern-sparking"/>
                         </div>
 
                         <!-- Twinkle Settings -->
                         <div>
                             <h5>Extra Settings</h5>
                             <h6>Twinkle Speed</h6>
-                            <input type="range" min="0" max="100" value="100" />
+                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed"/>
                             <h6>Twinkle Density</h6>
-                            <input type="range" min="0" max="100" value="100" />
+                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-density"/>
                         </div>
                     </div>
                 </div>
@@ -193,7 +172,91 @@
 
     <script>
         let lights = new LightControl();
-        lights.fetchInformation();
+        lights.fetchInformation(doneLoading);
+
+        function doneLoading(data){
+            console.log(data);
+            if(data !== undefined){
+
+                //Leaf selection (for colors)
+                if(data.allLeafs.value == 1){
+                    data.selectedLeaf.value = 0;
+                }
+                $('#selected-leaf').attr({
+                    "max" : data.selectedLeaf.max,
+                    "value" : data.selectedLeaf.value
+                });
+
+
+                //Autplay settings
+                $('#autoplay-duration').attr({
+                    "max" : data.autoplayDuration.max,
+                    "min" : data.autoplayDuration.min,
+                    "value" : data.autoplayDuration.value
+                });
+                if(data.autoplay.value == 1){
+                    $('#autoplay-on-off').prop("checked", true);
+                }else{
+                    $('#autoplay-on-off').prop("checked", false);
+                }
+
+                //Brightness
+                $('#brigtness').attr({
+                    "max" : data.brightness.max,
+                    "min" : data.brightness.min,
+                    "value" : data.brightness.value
+                });
+
+                //Cooling
+                $('#patten-cooling').attr({
+                    "max" : data.cooling.max,
+                    "min" : data.cooling.min,
+                    "value" : data.cooling.value
+                });
+
+                //TODO: palette and pattern setup
+
+                //Power
+                if(data.power.value == 1){
+                    $('#on-off').prop("checked", true);
+                }else{
+                    $('#on-off').prop("checked", false);
+                }
+
+                //Solid color
+                $('.ribbon').css("background-color", "rgb(" + data.solidColor.value + ")");
+                //TODO: Convert this to HSV and setup our sliders
+
+                //sparking
+                $('#pattern-sparking').attr({
+                    "max" : data.sparking.max,
+                    "min" : data.sparking.min,
+                    "value" : data.sparking.value
+                });
+
+                //Speed
+                $('#pattern-speed').attr({
+                    "max" : data.speed.max,
+                    "min" : data.speed.min,
+                    "value" : data.speed.value
+                });
+
+                //Twinkle Density
+                $('#pattern-twinkle-density').attr({
+                    "max" : data.twinkleDensity.max,
+                    "min" : data.twinkleDensity.min,
+                    "value" : data.twinkleDensity.value
+                });
+
+                //Twinkle Speed
+                $('#pattern-twinkle-speed').attr({
+                    "max" : data.twinkleSpeed.max,
+                    "min" : data.twinkleSpeed.min,
+                    "value" : data.twinkleSpeed.value
+                });
+
+            }
+        }
     </script>
 
 

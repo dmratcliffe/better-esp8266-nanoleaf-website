@@ -18,3 +18,36 @@
 {name: "twinkleSpeed", label: "Twinkle Speed", type: "Number", value: 4, min: 0, …
 {name: "twinkleDensity", label: "Twinkle Density", type: "Number", value: 5, min: 0, …
 
+allLeafs: [value: 1]
+autoplay: [value: 0]
+autoplayDuration: [value: 10, min: 0, max: 255]
+brightness: [value: 255, min: 1, max: 255]
+cooling: [value: 49, min: 0, max: 255]
+palette: [value: 0, options: Array(8)]
+pattern: [value: 29, options: Array(31)]
+power: [value: 1]
+selectedLeaf: [value: 1, min: 1, max: 36]
+solidColor: [value: "255,255,255"]
+sparking: [value: 160, min: 0, max: 255]
+speed: [value: 20, min: 1, max: 255]
+twinkleDensity: [value: 5, min: 0, max: 8]
+twinkleSpeed: [value: 4, min: 0, max: 8]
+
+
+
+Need to impliment:
+
+//allLeafs: [value: 1]
+//autoplay: [value: 0]
+//autoplayDuration: [value: 10, min: 0, max: 255]
+//brightness: [value: 255, min: 1, max: 255]
+//cooling: [value: 49, min: 0, max: 255]
+palette: [value: 0, options: Array(8)]
+pattern: [value: 29, options: Array(31)]
+//power: [value: 1]
+//selectedLeaf: [value: 1, min: 1, max: 36]
+//solidColor: [value: "255,255,255"]
+//sparking: [value: 160, min: 0, max: 255]
+//speed: [value: 20, min: 1, max: 255]
+//twinkleDensity: [value: 5, min: 0, max: 8]
+//twinkleSpeed: [value: 4, min: 0, max: 8]
