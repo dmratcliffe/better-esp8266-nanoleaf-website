@@ -128,26 +128,26 @@
                         </select>
                     </div>
 
+                    <h6>Autoplay</h6>
+                    <div class="switch">
+                        <center>
+                            <label>
+                                Off
+                                <input type="checkbox" id="autoplay-on-off">
+                                <span class="lever "></span>
+                                On
+                            </label>
+                        </center>
+                    </div>
+                    <h6>Autoplay Duration</h6>
+                    <input type="range" min="0" max="100" value="100" id="autoplay-duration" />
+
                     <!-- Only show if "no patten" is not selected -->
                     <div>
                         <h5>Pattern Settings</h5>
                         <!-- This works for all, so never hide it :) -->
                         <h6>Speed</h6>
                         <input type="range" min="0" max="100" value="100" id="pattern-speed" />
-
-                        <h6>Autoplay</h6>
-                        <div class="switch">
-                            <center>
-                                <label>
-                                    Off
-                                    <input type="checkbox" id="autoplay-on-off">
-                                    <span class="lever "></span>
-                                    On
-                                </label>
-                            </center>
-                        </div>
-                        <h6>Autoplay Duration</h6>
-                        <input type="range" min="0" max="100" value="100" id="autoplay-duration" />
 
                         <!-- Related to fire / water I think???-->
                         <div class="fire-container">
@@ -258,7 +258,6 @@
                 //TODO: Convert this to HSV and setup our sliders
 
 
-                //TODO: Hide this stuff when the active pattern doesn't effect it.
                 //sparking
                 $('#pattern-sparking').attr({
                     "max": data.sparking.max,
@@ -370,7 +369,6 @@
                         break;
                 }
             });
-
         });
 
     </script>
