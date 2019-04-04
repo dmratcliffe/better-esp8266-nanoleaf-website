@@ -101,6 +101,18 @@ class LightControl {
     }
 
     /**
+     * Toggle the autoplay on / off
+     * @see  setterHelper
+     */
+    toggleAutoplay(curVal){
+        if(curVal){
+            this.setAutoplay(0);
+        }else{
+            this.setAutoplay(1);
+        }
+    }
+
+    /**
      * The duration you see the current pattern in autoplay mode.
      * @see  setterHelper
      */
@@ -145,11 +157,23 @@ class LightControl {
     }
 
     /**
-     * Turn the power on / off
+     * Turn the power to selected value
      * @see  setterHelper
      */
     setPower(value){
         return this.setterHelper("power", value);
+    }
+
+    /**
+     * Toggle the power on / off
+     * @see  setterHelper
+     */
+    togglePower(curVal){
+        if(curVal){
+            this.setPower(0);
+        }else{
+            this.setPower(1);
+        }
     }
 
     /**

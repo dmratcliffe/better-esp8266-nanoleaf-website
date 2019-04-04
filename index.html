@@ -29,7 +29,7 @@
             width: 100%;
             height: 40vh;
 
-            background-color: #00bcd4;
+            background-color: #fff;
             flex-shrink: 0;
             margin-bottom: -35vh;
         }
@@ -90,7 +90,7 @@
                         </center>
                     </div>
                     <h6>Brightness</h6>
-                    <input type="range" min="0" max="100" value="100" id="brigtness" />
+                    <input type="range" min="0" max="100" value="100" id="brightness" />
                     <h5>Color</h5>
                     <h6>Hue</h6>
                     <input type="range" min="0" max="360" value="360" />
@@ -147,7 +147,7 @@
                             </center>
                         </div>
                         <h6>Autoplay Duration</h6>
-                        <input type="range" min="0" max="100" value="100" id="autplay-duration" />
+                        <input type="range" min="0" max="100" value="100" id="autoplay-duration" />
 
                         <!-- Related to fire / water I think???-->
                         <div>
@@ -173,9 +173,10 @@
     </div>
 
     <script>
-
+        var curJson;
         function doneLoading(data) {
             console.log(data);
+            curJson = data;
             if (data !== undefined) {
 
                 //Leaf selection (for colors)
@@ -188,7 +189,7 @@
                 });
 
 
-                //Autplay settings
+                //autoplay settings
                 $('#autoplay-duration').attr({
                     "max": data.autoplayDuration.max,
                     "min": data.autoplayDuration.min,
@@ -201,7 +202,7 @@
                 }
 
                 //Brightness
-                $('#brigtness').attr({
+                $('#brightness').attr({
                     "max": 100,
                     "min": 0,
                     "value": (data.brightness.value / 255) * 100
@@ -247,6 +248,8 @@
                 $('.ribbon').css("background-color", "rgb(" + data.solidColor.value + ")");
                 //TODO: Convert this to HSV and setup our sliders
 
+
+                //TODO: Hide this stuff when the active pattern doesn't effect it.
                 //sparking
                 $('#pattern-sparking').attr({
                     "max": data.sparking.max,
@@ -277,7 +280,7 @@
 
             }
         }
-      
+
         //we want the document to load before we start doing stuff
         //the fetch information will almost always take longer then document
         //load so in the future I might compare speeds with it in and out of document load.
@@ -285,6 +288,52 @@
             let lights = new LightControl();
             lights.fetchInformation(doneLoading);
 
+            $('input').change(function (object) {
+                var tar = object.target;
+                var objectID = tar.id;
+                var objectValue = tar.value;
+                switch (objectID) {
+                    case 'on-off':
+                        lights.togglePower(curJson.power.value);
+                        break;
+                    case 'autoplay-on-off':
+                        lights.toggleAutoplay(curJson.autoplay.value);
+                        break;
+                    case 'brightness':
+                        lights.setBrightness(objectValue);
+                        break;
+                    //hue should go here
+                    case 'selected-leaf':
+                        if (objectValue == 0) {
+                            lights.setAllLeafs(1);
+                        } else {
+                            lights.setAllLeafs(0);
+                            lights.setSelectedLeaf(objectValue);
+                        }
+                        break;
+                    case 'pattern-speed':
+                        lights.setSpeed(objectValue);
+                        break;
+                    case 'autoplay-duration':
+                        lights.setAutoplayDuration(objectValue);
+                        break;
+                    case 'patten-cooling':
+                        lights.setCooling(objectValue);
+                        break;
+                    case 'pattern-sparking':
+                        lights.setSparking(objectValue);
+                        break;
+                    case 'pattern-twinkle-speed':
+                        lights.setTwinkleSpeed(objectValue);
+                        break;
+                    case 'pattern-twinkle-density':
+                        lights.setTwinkleDensity(objectValue);
+                        break;
+                }
+                console.log(tar);
+                console.log(objectID + " " + objectValue);
+                lights.fetchInformation(doneLoading);
+            });
         });
 
     </script>
