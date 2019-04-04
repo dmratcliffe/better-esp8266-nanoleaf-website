@@ -116,7 +116,9 @@ class LightControl {
      */
     setBrightness(value){
         //TODO: convert 100 range into 255 range.
-        return this.setterHelper("brightness", value);
+        var percent = value/100;
+        var conv = percent * 255;
+        return this.setterHelper("brightness", conv);
     }
 
     /**
