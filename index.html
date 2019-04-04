@@ -202,9 +202,9 @@
 
                 //Brightness
                 $('#brigtness').attr({
-                    "max": data.brightness.max,
-                    "min": data.brightness.min,
-                    "value": data.brightness.value
+                    "max": 100,
+                    "min": 0,
+                    "value": (data.brightness.value / 255) * 100
                 });
 
                 //Cooling
@@ -284,7 +284,7 @@
         $(document).ready(function () {
             let lights = new LightControl();
             lights.fetchInformation(doneLoading);
-            
+
         });
 
     </script>
