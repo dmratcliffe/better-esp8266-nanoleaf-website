@@ -68,4 +68,11 @@ class LightControl {
             }
         });
     }
+
+    //reduce redundant code, this should.
+    setterHelper(name, value){
+        $.post(address + name + "?value=" + value, {name: name, value, value, function(data){
+            return data;
+        }})
+    }
 }

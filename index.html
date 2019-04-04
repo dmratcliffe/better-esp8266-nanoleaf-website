@@ -8,7 +8,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
     <!-- Better font -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 
     <!-- JQuery... because... -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -20,9 +21,10 @@
     <!-- Mobile friendly :)-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <style>
-        *{
+        * {
             font-family: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         .ribbon {
             width: 100%;
             height: 40vh;
@@ -88,7 +90,7 @@
                         </center>
                     </div>
                     <h6>Brightness</h6>
-                    <input type="range" min="0" max="100" value="100" id="brigtness"/>
+                    <input type="range" min="0" max="100" value="100" id="brigtness" />
                     <h5>Color</h5>
                     <h6>Hue</h6>
                     <input type="range" min="0" max="360" value="360" />
@@ -97,7 +99,7 @@
                     <h6>Value</h6>
                     <input type="range" min="0" max="100" value="100" />
                     <h6>Selected Leaf (0 is all)</h6>
-                    <input type="range" min="0" max="100" value="100" id="selected-leaf"/>
+                    <input type="range" min="0" max="100" value="100" id="selected-leaf" />
                 </div>
             </div>
         </div>
@@ -111,7 +113,7 @@
                     </select>
 
                     <!-- Only show when twinkle is selected-->
-                    <div >
+                    <div>
                         <label>Select Twinkle Type</label>
                         <select class="browser-default" id="twinkle-type">
 
@@ -119,7 +121,7 @@
                     </div>
 
                     <!-- Only show when a color modify - able is selected -->
-                    <div >
+                    <div>
                         <label>Select Color Palette</label>
                         <select class="browser-default" id="palette">
 
@@ -131,38 +133,38 @@
                         <h5>Pattern Settings</h5>
                         <!-- This works for all, so never hide it :) -->
                         <h6>Speed</h6>
-                        <input type="range" min="0" max="100" value="100" id="pattern-speed"/>
+                        <input type="range" min="0" max="100" value="100" id="pattern-speed" />
 
                         <h6>Autoplay</h6>
                         <div class="switch">
-                                <center>
-                                    <label>
-                                        Off
-                                        <input type="checkbox" id="autoplay-on-off">
-                                        <span class="lever "></span>
-                                        On
-                                    </label>
-                                </center>
-                            </div>
+                            <center>
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="autoplay-on-off">
+                                    <span class="lever "></span>
+                                    On
+                                </label>
+                            </center>
+                        </div>
                         <h6>Autoplay Duration</h6>
-                        <input type="range" min="0" max="100" value="100" id="autplay-duration"/>
+                        <input type="range" min="0" max="100" value="100" id="autplay-duration" />
 
                         <!-- Related to fire / water I think???-->
                         <div>
                             <h5>Extra Settings</h5>
                             <h6>Cooling</h6>
-                            <input type="range" min="0" max="100" value="100" id="patten-cooling"/>
+                            <input type="range" min="0" max="100" value="100" id="patten-cooling" />
                             <h6>sparking</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-sparking"/>
+                            <input type="range" min="0" max="100" value="100" id="pattern-sparking" />
                         </div>
 
                         <!-- Twinkle Settings -->
                         <div>
                             <h5>Extra Settings</h5>
                             <h6>Twinkle Speed</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed"/>
+                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed" />
                             <h6>Twinkle Density</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-density"/>
+                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-density" />
                         </div>
                     </div>
                 </div>
@@ -171,63 +173,61 @@
     </div>
 
     <script>
-        let lights = new LightControl();
-        lights.fetchInformation(doneLoading);
 
-        function doneLoading(data){
+        function doneLoading(data) {
             console.log(data);
-            if(data !== undefined){
+            if (data !== undefined) {
 
                 //Leaf selection (for colors)
-                if(data.allLeafs.value == 1){
+                if (data.allLeafs.value == 1) {
                     data.selectedLeaf.value = 0;
                 }
                 $('#selected-leaf').attr({
-                    "max" : data.selectedLeaf.max,
-                    "value" : data.selectedLeaf.value
+                    "max": data.selectedLeaf.max,
+                    "value": data.selectedLeaf.value
                 });
 
 
                 //Autplay settings
                 $('#autoplay-duration').attr({
-                    "max" : data.autoplayDuration.max,
-                    "min" : data.autoplayDuration.min,
-                    "value" : data.autoplayDuration.value
+                    "max": data.autoplayDuration.max,
+                    "min": data.autoplayDuration.min,
+                    "value": data.autoplayDuration.value
                 });
-                if(data.autoplay.value == 1){
+                if (data.autoplay.value == 1) {
                     $('#autoplay-on-off').prop("checked", true);
-                }else{
+                } else {
                     $('#autoplay-on-off').prop("checked", false);
                 }
 
                 //Brightness
                 $('#brigtness').attr({
-                    "max" : data.brightness.max,
-                    "min" : data.brightness.min,
-                    "value" : data.brightness.value
+                    "max": data.brightness.max,
+                    "min": data.brightness.min,
+                    "value": data.brightness.value
                 });
 
                 //Cooling
                 $('#patten-cooling').attr({
-                    "max" : data.cooling.max,
-                    "min" : data.cooling.min,
-                    "value" : data.cooling.value
+                    "max": data.cooling.max,
+                    "min": data.cooling.min,
+                    "value": data.cooling.value
                 });
 
                 //Load palettes
-                $.each(data.palette.options, function(i, d){
-                    $('#palette').append('<option value="'+i+'">'+d+'</option>');
+                $.each(data.palette.options, function (i, d) {
+                    $('#palette').append('<option value="' + i + '">' + d + '</option>');
                 });
                 $('#palette').val(data.pattern.value);
                 //TODO: find out which patterns this works for, only display
                 // when those patterns are active.
 
                 //Load patterns
-                $.each(data.pattern.options, function(i, d){
-                    if(d.includes("Twinkle")){
-                        $('#twinkle-type').append('<option value="'+i+'">'+d+'</option>');
-                    }else{
-                        $('#pattern').append('<option value="'+i+'">'+d+'</option>');
+                $.each(data.pattern.options, function (i, d) {
+                    if (d.includes("Twinkle")) {
+                        $('#twinkle-type').append('<option value="' + i + '">' + d + '</option>');
+                    } else {
+                        $('#pattern').append('<option value="' + i + '">' + d + '</option>');
                     }
                 });
                 $('#pattern').append('<option value="twinkle">Twinkles...</option>');
@@ -235,11 +235,11 @@
                 //TODO: on changed listener that determins wheter or not twinkles should be shown.
                 //This extends to twinkles options.
 
-                
+
                 //Power
-                if(data.power.value == 1){
+                if (data.power.value == 1) {
                     $('#on-off').prop("checked", true);
-                }else{
+                } else {
                     $('#on-off').prop("checked", false);
                 }
 
@@ -249,34 +249,40 @@
 
                 //sparking
                 $('#pattern-sparking').attr({
-                    "max" : data.sparking.max,
-                    "min" : data.sparking.min,
-                    "value" : data.sparking.value
+                    "max": data.sparking.max,
+                    "min": data.sparking.min,
+                    "value": data.sparking.value
                 });
 
                 //Speed
                 $('#pattern-speed').attr({
-                    "max" : data.speed.max,
-                    "min" : data.speed.min,
-                    "value" : data.speed.value
+                    "max": data.speed.max,
+                    "min": data.speed.min,
+                    "value": data.speed.value
                 });
 
                 //Twinkle Density
                 $('#pattern-twinkle-density').attr({
-                    "max" : data.twinkleDensity.max,
-                    "min" : data.twinkleDensity.min,
-                    "value" : data.twinkleDensity.value
+                    "max": data.twinkleDensity.max,
+                    "min": data.twinkleDensity.min,
+                    "value": data.twinkleDensity.value
                 });
 
                 //Twinkle Speed
                 $('#pattern-twinkle-speed').attr({
-                    "max" : data.twinkleSpeed.max,
-                    "min" : data.twinkleSpeed.min,
-                    "value" : data.twinkleSpeed.value
+                    "max": data.twinkleSpeed.max,
+                    "min": data.twinkleSpeed.min,
+                    "value": data.twinkleSpeed.value
                 });
 
             }
         }
+      
+        $(document).ready(function () {
+            let lights = new LightControl();
+            lights.fetchInformation(doneLoading);
+        });
+
     </script>
 
 
