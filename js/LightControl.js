@@ -101,7 +101,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAllLeafs(val){
-        setterHelper("allLeafs", val);
+        return setterHelper("allLeafs", val);
     }
 
     /**
@@ -111,7 +111,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAutoplay(value){
-        setterHelper("autoplay", value);
+        return setterHelper("autoplay", value);
     }
 
     /**
@@ -119,7 +119,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAutoplayDuration(value){
-        setterHelper("autoplayDuration", value);
+        return setterHelper("autoplayDuration", value);
     }
 
     /**
@@ -130,29 +130,54 @@ class LightControl {
      */
     setBrightness(value){
         //TODO: convert 100 range into 255 range.
-        setterHelper("brightness", value);
+        return setterHelper("brightness", value);
     }
 
+    /**
+     * TThe ammount of cooling that effects the fire (speed of return to white, I think.)
+     * @see  setterHelper
+     */
     setCooling(value){
-        setterHelper("cooling", value);
+        return setterHelper("cooling", value);
     }
 
+    /**
+     * The color palette to use for select few patterns (emphisis on select few)
+     * @see  setterHelper
+     */
     setPalette(value){
-        setterHelper("palette", value);
+        return setterHelper("palette", value);
     }
 
+    /**
+     * Change the pattern index
+     * @see  setterHelper
+     */
     setPattern(value){
-        setterHelper("pattern", value);
+        return setterHelper("pattern", value);
     }
 
+    /**
+     * Turn the power on / off
+     * @see  setterHelper
+     */
     setPower(value){
-        setterHelper("power", value);
+        return setterHelper("power", value);
     }
 
+    /**
+     * Set the leaf to indivdually change the color of
+     * @see  setterHelper
+     */
     setSelectedLeaf(value){
-        setterHelper("selectedLeaf", value);
+        return setterHelper("selectedLeaf", value);
     }
 
+    /**
+     * Sets the solid color for the solid color pattern, however this is useful
+     * to save the last selected color too.
+     * @see  setterHelper
+     */
     setSolidColor(r,b,g){
         //this is a specail case, we need rgb to set a color...
         $.post(address + name + "?r=" + r + "&g=" + g + "&b=" + b, {name: name, value, value, function(data){
@@ -160,23 +185,42 @@ class LightControl {
         }});
     }
 
+    /**
+     * Set the amount of sparking for the fire
+     * @see  setterHelper
+     */
     setSparking(value){
-        setterHelper("sparking", value);
+        return setterHelper("sparking", value);
     }
 
+    /**
+     * Set the speed of the pattern, applies to all
+     * @see  setterHelper
+     */
     setSpeed(value){
-        setterHelper("speed", value);
+        return setterHelper("speed", value);
     }
 
+    /**
+     * Sets the twinkle density (which appears to be how many allowed next to each other)
+     * 0-8
+     * @see  setterHelper
+     */
     setTwinkleDensity(value){
-        setterHelper("twinkleDensity", value);
+        return setterHelper("twinkleDensity", value);
     }
 
+    /**
+     * Sets how fast the twinkles fade
+     * 0-8
+     * @see  setterHelper
+     */
     setTwinkleSpeed(value){
-        setterHelper("twinkleSpeed", value);
+        return setterHelper("twinkleSpeed", value);
     }
 
     //TODO: handle custom patterns, need to look at the code.
-
-
+    setCustomPattern(value){
+        return null;
+    }
 }
