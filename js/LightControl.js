@@ -87,7 +87,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAllLeafs(val){
-        return setterHelper("allLeafs", val);
+        return this.setterHelper("allLeafs", val);
     }
 
     /**
@@ -97,7 +97,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAutoplay(value){
-        return setterHelper("autoplay", value);
+        return this.setterHelper("autoplay", value);
     }
 
     /**
@@ -105,7 +105,7 @@ class LightControl {
      * @see  setterHelper
      */
     setAutoplayDuration(value){
-        return setterHelper("autoplayDuration", value);
+        return this.setterHelper("autoplayDuration", value);
     }
 
     /**
@@ -116,7 +116,7 @@ class LightControl {
      */
     setBrightness(value){
         //TODO: convert 100 range into 255 range.
-        return setterHelper("brightness", value);
+        return this.setterHelper("brightness", value);
     }
 
     /**
@@ -124,7 +124,7 @@ class LightControl {
      * @see  setterHelper
      */
     setCooling(value){
-        return setterHelper("cooling", value);
+        return this.setterHelper("cooling", value);
     }
 
     /**
@@ -132,7 +132,7 @@ class LightControl {
      * @see  setterHelper
      */
     setPalette(value){
-        return setterHelper("palette", value);
+        return this.setterHelper("palette", value);
     }
 
     /**
@@ -140,7 +140,7 @@ class LightControl {
      * @see  setterHelper
      */
     setPattern(value){
-        return setterHelper("pattern", value);
+        return this.setterHelper("pattern", value);
     }
 
     /**
@@ -148,7 +148,7 @@ class LightControl {
      * @see  setterHelper
      */
     setPower(value){
-        return setterHelper("power", value);
+        return this.setterHelper("power", value);
     }
 
     /**
@@ -156,7 +156,7 @@ class LightControl {
      * @see  setterHelper
      */
     setSelectedLeaf(value){
-        return setterHelper("selectedLeaf", value);
+        return this.setterHelper("selectedLeaf", value);
     }
 
     /**
@@ -176,7 +176,7 @@ class LightControl {
      * @see  setterHelper
      */
     setSparking(value){
-        return setterHelper("sparking", value);
+        return this.setterHelper("sparking", value);
     }
 
     /**
@@ -184,7 +184,7 @@ class LightControl {
      * @see  setterHelper
      */
     setSpeed(value){
-        return setterHelper("speed", value);
+        return this.setterHelper("speed", value);
     }
 
     /**
@@ -193,7 +193,7 @@ class LightControl {
      * @see  setterHelper
      */
     setTwinkleDensity(value){
-        return setterHelper("twinkleDensity", value);
+        return this.setterHelper("twinkleDensity", value);
     }
 
     /**
@@ -202,7 +202,7 @@ class LightControl {
      * @see  setterHelper
      */
     setTwinkleSpeed(value){
-        return setterHelper("twinkleSpeed", value);
+        return this.setterHelper("twinkleSpeed", value);
     }
 
     //TODO: handle custom patterns, need to look at the code.
@@ -222,5 +222,6 @@ class LightControl {
         $.post(this.address + name + "?value=" + value, {name: name, value, value, function(data){
             return data;
         }});
+        return null;
     }
 }
