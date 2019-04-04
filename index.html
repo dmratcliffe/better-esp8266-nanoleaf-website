@@ -113,7 +113,7 @@
                     </select>
 
                     <!-- Only show when twinkle is selected-->
-                    <div>
+                    <div class="twinkle-container">
                         <label>Select Twinkle Type</label>
                         <select class="browser-default" id="twinkle-type">
 
@@ -150,7 +150,7 @@
                         <input type="range" min="0" max="100" value="100" id="autoplay-duration" />
 
                         <!-- Related to fire / water I think???-->
-                        <div>
+                        <div class="fire-container">
                             <h5>Extra Settings</h5>
                             <h6>Cooling</h6>
                             <input type="range" min="0" max="100" value="100" id="patten-cooling" />
@@ -159,7 +159,7 @@
                         </div>
 
                         <!-- Twinkle Settings -->
-                        <div>
+                        <div class="twinkle-container">
                             <h5>Extra Settings</h5>
                             <h6>Twinkle Speed</h6>
                             <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed" />
@@ -175,6 +175,9 @@
     <script>
         var curJson;
         function doneLoading(data) {
+            //clear the selects (prevents wild duplication)
+            $('select').find('option').remove().end();
+
             console.log(data);
             curJson = data;
             if (data !== undefined) {
@@ -219,23 +222,29 @@
                 $.each(data.palette.options, function (i, d) {
                     $('#palette').append('<option value="' + i + '">' + d + '</option>');
                 });
-                $('#palette').val(data.pattern.value);
+                $('#palette').val(data.palette.value);
                 //TODO: find out which patterns this works for, only display
                 // when those patterns are active.
 
                 //Load patterns
+                var isTwinkle = false;
                 $.each(data.pattern.options, function (i, d) {
                     if (d.includes("Twinkle")) {
+                        if (i == data.pattern.value) {
+                            isTwinkle = true;
+                        }
                         $('#twinkle-type').append('<option value="' + i + '">' + d + '</option>');
                     } else {
                         $('#pattern').append('<option value="' + i + '">' + d + '</option>');
                     }
                 });
                 $('#pattern').append('<option value="twinkle">Twinkles...</option>');
-                $('#patten').val(data.pattern.value);
-                //TODO: on changed listener that determins wheter or not twinkles should be shown.
-                //This extends to twinkles options.
-
+                if (isTwinkle) {
+                    $('#pattern').val("twinkle").change();
+                    $('#twinkle-type').val(data.pattern.value).change();
+                } else {
+                    $('#pattern').val(data.pattern.value).change();
+                }
 
                 //Power
                 if (data.power.value == 1) {
@@ -340,8 +349,18 @@
                 var objectValue = tar.value;
                 switch (objectID) {
                     case 'pattern':
-                        //TODO: show twinkles
-                        lights.setPattern(objectValue);
+                        if (objectValue == "twinkle") {
+                            $('.twinkle-container').show();
+                        } else {
+                            $('.twinkle-container').hide();
+                            if (objectValue == 27 || objectValue == 28) { //this is fire and water 
+                                $('.fire-container').show();
+                            } else {
+                                $('.fire-container').hide();
+                            }
+                            lights.setPattern(objectValue);
+                        }
+
                         break;
                     case 'twinkle-type':
                         lights.setPattern(objectValue);
@@ -350,9 +369,6 @@
                         lights.setPalette(objectValue);
                         break;
                 }
-                console.log(tar);
-                console.log(objectID);
-                console.log(objectValue);
             });
 
         });
