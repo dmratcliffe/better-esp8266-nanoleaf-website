@@ -330,10 +330,10 @@
                         lights.setTwinkleDensity(objectValue);
                         break;
                 }
-                console.log(tar);
-                console.log(objectID + " " + objectValue);
+                //TODO: this should probably be staggered. some sort of stack? pop off every 300ms
                 lights.fetchInformation(doneLoading);
             });
+            
         });
 
     </script>
