@@ -1,70 +1,69 @@
 <html>
 
 <head>
-    <title>Knock-o Leaf Control</title>
+	<title>Knock-o Leaf Control</title>
 
-    <!-- Materialize Sylesheets & Javascript -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!-- Materialize Sylesheets & Javascript -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+	</script>
 
-    <!-- Better font -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+	<!-- Better font -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 
-    <!-- JQuery... because... -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<!-- JQuery... because... -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+	 crossorigin="anonymous">
+	</script>
 
-    <!-- My Scripts -->
-    <script src="js/LightControl.js"></script>
+	<!-- My Scripts -->
+	<script src="js/LightControl.js">
+	</script>
 
-    <!-- Mobile friendly :)-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <style>
-        * {
-            font-family: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+	<!-- Mobile friendly :)-->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+	<style>
+		* {
+			font-family: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+		}
 
-        .ribbon {
-            width: 100%;
-            height: 40vh;
+		.ribbon {
+			width: 100%;
+			height: 40vh;
+			flex-shrink: 0;
+			margin-bottom: -35vh;
+		}
 
-            background-color: #fff;
-            flex-shrink: 0;
-            margin-bottom: -35vh;
-        }
-
-        label {
-            color: black;
-        }
-    </style>
+		label {
+			color: black;
+		}
+	</style>
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper  cyan darken-4">
-            <a href="#" class="brand-logo " style="margin-left: 10px;">Knock-o Leafs</a>
-        </div>
-    </nav>
-    <div class="ribbon"></div>
-    <!-- Leave this hidden until it works... -->
-    <div class="row" style="display: none;">
-        <div class="col s0 m1 l3"></div>
-        <div class="col s12 m10 l6">
-            <div class="card z-depth-2">
-                <div class="card-content">
-                    <h4>Light Setup</h4>
-                    <p>
-                        This area will eventually allow for setup of how the lights are displayed on your wall.
-                        The general idea is:
-                        <ul>
-                            <li>This area will let you click to add lights only next to the first light</li>
-                            <li>Clicking on a tringle will blink the actual triangle</li>
-                            <li>The profiles are either saved in computers cache or on the esp somehow</li>
-                        </ul>
-                        The general layout will hopefully look something like:
-                        <!--  <img src="example.png" /> -->
-                        <br>
+	<nav>
+		<div class="nav-wrapper  cyan darken-4">
+			<a href="#" class="brand-logo " style="margin-left: 10px;">Knock-o Leafs</a>
+		</div>
+	</nav>
+	<div class="ribbon"></div>
+	<!-- Leave this hidden until it works... -->
+	<div class="row" style="display: none;">
+		<div class="col s0 m1 l3"></div>
+		<div class="col s12 m10 l6">
+			<div class="card z-depth-2">
+				<div class="card-content">
+					<h4>Light Setup</h4>
+					<p>
+						This area will eventually allow for setup of how the lights are displayed on your wall. The general idea is:
+						<ul>
+							<li>This area will let you click to add lights only next to the first light</li>
+							<li>Clicking on a tringle will blink the actual triangle</li>
+							<li>The profiles are either saved in computers cache or on the esp somehow</li>
+						</ul>
+						The general layout will hopefully look something like:
+						<!--  <img src="example.png" /> -->
+						<br>
                         Yeah... it's really rough. This is the last thing I will work on...
                     </p>
                 </div>
@@ -95,9 +94,9 @@
                     <h6>Hue</h6>
                     <input type="range" min="0" max="360" value="360" id="h" />
                     <h6>Saturation</h6>
-                    <input type="range" min="0" max="100" value="100" id="s" />
+                    <input type="range" min="0" max="255" value="255" id="s" />
                     <h6>Value</h6>
-                    <input type="range" min="0" max="100" value="100" id="v" />
+                    <input type="range" min="0" max="255" value="255" id="v" />
                     <h6>Selected Leaf (0 is all)</h6>
                     <input type="range" min="0" max="100" value="100" id="selected-leaf" />
                 </div>
@@ -174,6 +173,7 @@
 
     <script>
         var curJson;
+        var h = 0, s = 255, v = 255;
         function doneLoading(data) {
             //clear the selects (prevents wild duplication)
             $('select').find('option').remove().end();
@@ -255,8 +255,27 @@
 
                 //Solid color
                 $('.ribbon').css("background-color", "rgb(" + data.solidColor.value + ")");
-                //TODO: Convert this to HSV and setup our sliders
+                var rgb = data.solidColor.value;
+                var rgbsplits = rgb.split(',');
 
+                var r, g, b;
+                r = rgbsplits[0];
+                g = rgbsplits[1];
+                b = rgbsplits[2];
+
+                var hsv = RGBtoHSV(r,g,b);
+                h = hsv.h;
+                s = hsv.s;
+                v = hsv.v;
+                $('#h').attr({
+                    "value": h
+                });
+                $('#s').attr({
+                    "value": s
+                });
+                $('#v').attr({
+                    "value": v
+                });
 
                 //sparking
                 $('#pattern-sparking').attr({
@@ -288,12 +307,12 @@
 
             }
         }
-
+        let lights = new LightControl();
         //we want the document to load before we start doing stuff
         //the fetch information will almost always take longer then document
         //load so in the future I might compare speeds with it in and out of document load.
         $(document).ready(function () {
-            let lights = new LightControl();
+
             lights.fetchInformation(doneLoading);
 
             //pretty much all inputs
@@ -313,10 +332,16 @@
                         break;
                     //hue should go here
                     case 'h':
+                        h = objectValue;
+                        updateSolidColor();
                         break;
                     case 's':
+                        s = objectValue;
+                        updateSolidColor();
                         break;
                     case 'v':
+                        v = objectValue;
+                        updateSolidColor();
                         break;
                     case 'selected-leaf':
                         if (objectValue == 0) {
@@ -360,7 +385,7 @@
                             $('.twinkle-container').show();
                         } else {
                             $('.twinkle-container').hide();
-                            if (objectValue == 27 || objectValue == 28) { //this is fire and water 
+                            if (objectValue == 27 || objectValue == 28) { //this is fire and water
                                 $('.fire-container').show();
                             } else {
                                 $('.fire-container').hide();
@@ -381,6 +406,22 @@
         });
 
         /*
+
+            This function just handles the update of the solid color.
+            It has code that applies to each slider, so it should be one function.
+
+        */
+        function updateSolidColor(){
+            var rgb = HSVtoRGB(h/360, s/255, v);
+            var r, g, b;
+            r = rgb.r;
+            g = rgb.g;
+            b = rgb.b;
+            lights.setSolidColor(r, g, b);
+            $('.ribbon').css("background-color", "rgb(" + r + "," + g + ", " + b + ")");
+        }
+
+        /*
             These scripts I take no credit from. They come from this stack overflow: https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately
             With credit to: "Parthik Gosar" for point to this blog: http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
 
@@ -389,7 +430,7 @@
         */
         /* accepts parameters
         * h  Object = {h:x, s:y, v:z}
-        * OR 
+        * OR
         * h, s, v
         */
         function HSVtoRGB(h, s, v) {
@@ -411,14 +452,14 @@
                 case 5: r = v, g = p, b = q; break;
             }
             return {
-                r: Math.round(r * 255),
-                g: Math.round(g * 255),
-                b: Math.round(b * 255)
+                r: Math.round(r),
+                g: Math.round(g),
+                b: Math.round(b)
             };
         }
         /* accepts parameters
          * r  Object = {r:x, g:y, b:z}
-         * OR 
+         * OR
          * r, g, b
         */
         function RGBtoHSV(r, g, b) {

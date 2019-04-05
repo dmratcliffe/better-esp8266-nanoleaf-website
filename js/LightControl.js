@@ -194,9 +194,9 @@ class LightControl {
      */
     setSolidColor(r,b,g){
         //this is a specail case, we need rgb to set a color...
-        $.post(address + name + "?r=" + r + "&g=" + g + "&b=" + b, {name: name, value, value, function(data){
+        $.post(this.address + name + "?r=" + r + "&g=" + g + "&b=" + b, {R:r, G:g, B:b}, function(data){
             return data;
-        }});
+        });
     }
 
     /**
