@@ -315,6 +315,26 @@
 
             lights.fetchInformation(doneLoading);
 
+            $('input').on('input', function(object){
+                var tar = object.target;
+                var objectID = tar.id;
+                var objectValue = tar.value;
+                switch (objectID) {
+                    case 'h':
+                        h = objectValue;
+                        updateSolidColor(true);
+                        break;
+                    case 's':
+                        s = objectValue;
+                        updateSolidColor(true);
+                        break;
+                    case 'v':
+                        v = objectValue;
+                        updateSolidColor(true);
+                        break;
+                }
+            });
+
             //pretty much all inputs
             $('input').change(function (object) {
                 var tar = object.target;
@@ -330,18 +350,17 @@
                     case 'brightness':
                         lights.setBrightness(objectValue);
                         break;
-                    //hue should go here
                     case 'h':
                         h = objectValue;
-                        updateSolidColor();
+                        updateSolidColor(true);
                         break;
                     case 's':
                         s = objectValue;
-                        updateSolidColor();
+                        updateSolidColor(true);
                         break;
                     case 'v':
                         v = objectValue;
-                        updateSolidColor();
+                        updateSolidColor(true);
                         break;
                     case 'selected-leaf':
                         if (objectValue == 0) {
@@ -411,13 +430,14 @@
             It has code that applies to each slider, so it should be one function.
 
         */
-        function updateSolidColor(){
+        function updateSolidColor(send){
             var rgb = HSVtoRGB(h/360, s/255, v);
             var r, g, b;
             r = rgb.r;
             g = rgb.g;
             b = rgb.b;
-            lights.setSolidColor(r, g, b);
+            if(send)
+                lights.setSolidColor(r, g, b);
             $('.ribbon').css("background-color", "rgb(" + r + "," + g + ", " + b + ")");
         }
 
