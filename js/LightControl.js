@@ -1,11 +1,11 @@
-/* 
+/*
     A class that allows for easy control
     of the lights.
-    
+
     Functions for each operation should be written and clear.
 
     This is mostly a conversion from the "simple.js"/"app.js" file that
-    was already being used. I just didn't like how it was tied 
+    was already being used. I just didn't like how it was tied
     to elements which made it really hard to change anything
     without digging through the HTML.
 
@@ -29,7 +29,10 @@ class LightControl {
      */
     constructor(address) {
         if (address === undefined) {
-            this.address = location.hostname;
+            this.address = location.href.split("/")[2]; //this also fetches the port
+            //ie if the url is http://lol.ip.com:88/
+            //this should return 'lol.ip.com:88'
+            //makes it so if you're using it remotely the queries are formatted correctly.
         } else {
             this.address = address;
         }
@@ -41,7 +44,7 @@ class LightControl {
      * Some parsing must be done as they are originally in a format to allow for HTML
      * generation, but that makes it a pain to re-use for other things.
      * @param {Function} callback optional: allows for handing of the json by a different function
-     * 
+     *
      * @return {JSON} A nested JSON array that contains all relevant settings.
      */
     fetchInformation(callback) {
@@ -54,7 +57,7 @@ class LightControl {
                 if (f.value != undefined) {
                     //info we care about
                     var name = f.name, val = f.value, options = f.options, min=f.min, max = f.max;
-                    
+
                     //plunk it into an array
                     var itemProps = new Array();
                     itemProps['value'] = val;
@@ -234,14 +237,14 @@ class LightControl {
     setCustomPattern(value){
         return null;
     }
-    
+
     /**
      * A simple function to cut down on the amount of $.get() functions.
      * Formats the string in the expected way provied a name and a value.
      * @param {string} name The name of the property to be set
      * @param {int} value The value to be set
-     * 
-     * @return {string} The response string from the server. 
+     *
+     * @return {string} The response string from the server.
      */
     setterHelper(name, value){
         $.post(this.address + name + "?value=" + value, {name: name, value, value, function(data){
