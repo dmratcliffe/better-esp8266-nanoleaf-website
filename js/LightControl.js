@@ -192,7 +192,7 @@ class LightControl {
      * to save the last selected color too.
      * @see  setterHelper
      */
-    setSolidColor(r,b,g){
+    setSolidColor(r,g,b){
         //this is a specail case, we need rgb to set a color...
         $.post(this.address + "solidColor?r=" + r + "&g=" + g + "&b=" + b, {R:r, G:g, B:b}, function(data){
             return data;
