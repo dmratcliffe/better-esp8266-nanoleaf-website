@@ -1,175 +1,209 @@
 <html>
 
 <head>
-	<title>Knock-o Leaf Control</title>
+    <title>Knock-o Leaf Control</title>
 
-	<!-- Materialize Sylesheets & Javascript -->
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
-	</script>
+    <!-- Materialize Sylesheets & Javascript -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js">
+    </script>
 
-	<!-- Better font -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <!-- Better font -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
 
-	<!-- JQuery... because... -->
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	 crossorigin="anonymous">
-	</script>
+    <!-- JQuery... because... -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous">
+        </script>
 
-	<!-- My Scripts -->
-	<script src="js/LightControl.js">
-	</script>
+    <!-- My Scripts -->
+    <script src="js/LightControl.js">
+    </script>
 
-	<!-- Mobile friendly :)-->
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-	<style>
-		* {
-			font-family: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-		}
+    <!-- Mobile friendly :)-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <style>
+        * {
+            font-family: Roboto, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-		.ribbon {
-			width: 100%;
-			height: 40vh;
-			flex-shrink: 0;
-			margin-bottom: -35vh;
-		}
+        .ribbon {
+            width: 100%;
+            height: 40vh;
+            flex-shrink: 0;
+            margin-bottom: -35vh;
+        }
 
-		label {
-			color: black;
-		}
-	</style>
+        label {
+            color: black;
+        }
+
+        .content {
+            min-height: calc(100vh);
+        }
+        .page-footer {
+            margin-top: 0px;
+        }
+    </style>
 </head>
 
 <body>
-	<nav>
-		<div class="nav-wrapper  cyan darken-4">
-			<a href="#" class="brand-logo " style="margin-left: 10px;">Knock-o Leafs</a>
-		</div>
-	</nav>
-	<div class="ribbon"></div>
-	<!-- Leave this hidden until it works... -->
-	<div class="row" style="display: none;">
-		<div class="col s0 m1 l3"></div>
-		<div class="col s12 m10 l6">
-			<div class="card z-depth-2">
-				<div class="card-content">
-					<h4>Light Setup</h4>
-					<p>
-						This area will eventually allow for setup of how the lights are displayed on your wall. The general idea is:
-						<ul>
-							<li>This area will let you click to add lights only next to the first light</li>
-							<li>Clicking on a tringle will blink the actual triangle</li>
-							<li>The profiles are either saved in computers cache or on the esp somehow</li>
-						</ul>
-						The general layout will hopefully look something like:
-						<!--  <img src="example.png" /> -->
-						<br>
-                        Yeah... it's really rough. This is the last thing I will work on...
-                    </p>
+    <nav>
+        <div class="nav-wrapper  cyan darken-4">
+            <a href="#" class="brand-logo " style="margin-left: 10px;">Knock-o Leafs</a>
+        </div>
+    </nav>
+    <div class="ribbon"></div>
+
+    <div class="content">
+        <!-- Leave this hidden until it works... -->
+        <div class="row" style="display: none;">
+            <div class="col s0 m1 l3"></div>
+            <div class="col s12 m10 l6">
+                <div class="card z-depth-2">
+                    <div class="card-content">
+                        <h4>Light Setup</h4>
+                        <p>
+                            This area will eventually allow for setup of how the lights are displayed on your wall. The
+                            general idea is:
+                            <ul>
+                                <li>This area will let you click to add lights only next to the first light</li>
+                                <li>Clicking on a tringle will blink the actual triangle</li>
+                                <li>The profiles are either saved in computers cache or on the esp somehow</li>
+                            </ul>
+                            The general layout will hopefully look something like:
+                            <!--  <img src="example.png" /> -->
+                            <br>
+                            Yeah... it's really rough. This is the last thing I will work on...
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col s0 m0 l2"></div>
-        <div class="col s12 m6 l4">
-            <div class="card z-depth-2">
-                <div class="card-content">
-                    <h4>Settings</h4>
-                    <h5>Basic</h5>
-                    <h6>Power</h6>
-                    <div class="switch">
-                        <center>
-                            <label>
-                                Off
-                                <input type="checkbox" id="on-off">
-                                <span class="lever "></span>
-                                On
-                            </label>
-                        </center>
-                    </div>
-                    <h6>Brightness</h6>
-                    <input type="range" min="0" max="100" value="100" id="brightness" />
-                    <h5>Color</h5>
-                    <h6>Hue</h6>
-                    <input type="range" min="0" max="360" value="360" id="h" />
-                    <h6>Saturation</h6>
-                    <input type="range" min="0" max="255" value="255" id="s" />
-                    <h6>Value</h6>
-                    <input type="range" min="0" max="255" value="255" id="v" />
-                    <h6>Selected Leaf (0 is all)</h6>
-                    <input type="range" min="0" max="100" value="100" id="selected-leaf" />
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m5 l4">
-            <div class="card z-depth-2">
-                <div class="card-content">
-                    <h4>Pattern</h4>
-                    <label>Select Pattern</label>
-                    <select class="browser-default" id="pattern">
-
-                    </select>
-
-                    <!-- Only show when twinkle is selected-->
-                    <div class="twinkle-container">
-                        <label>Select Twinkle Type</label>
-                        <select class="browser-default" id="twinkle-type">
-
-                        </select>
-                    </div>
-
-                    <!-- Only show when a color modify - able is selected -->
-                    <div>
-                        <label>Select Color Palette</label>
-                        <select class="browser-default" id="palette">
-
-                        </select>
-                    </div>
-
-                    <h6>Autoplay</h6>
-                    <div class="switch">
-                        <center>
-                            <label>
-                                Off
-                                <input type="checkbox" id="autoplay-on-off">
-                                <span class="lever "></span>
-                                On
-                            </label>
-                        </center>
-                    </div>
-                    <h6>Autoplay Duration</h6>
-                    <input class="range-field" type="range" min="0" max="100" value="100" id="autoplay-duration" />
-
-                    <!-- Only show if "no patten" is not selected -->
-                    <div>
-                        <h5>Pattern Settings</h5>
-                        <!-- This works for all, so never hide it :) -->
-                        <h6>Speed</h6>
-                        <input type="range" min="0" max="100" value="100" id="pattern-speed" />
-
-                        <!-- Related to fire / water I think???-->
-                        <div class="fire-container">
-                            <h5>Extra Settings</h5>
-                            <h6>Cooling</h6>
-                            <input type="range" min="0" max="100" value="100" id="patten-cooling" />
-                            <h6>sparking</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-sparking" />
+        <div class="row">
+            <div class="col s0 m0 l2"></div>
+            <div class="col s12 m6 l4">
+                <div class="card z-depth-2">
+                    <div class="card-content">
+                        <h4>Settings</h4>
+                        <h5>Basic</h5>
+                        <h6>Power</h6>
+                        <div class="switch">
+                            <center>
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="on-off">
+                                    <span class="lever "></span>
+                                    On
+                                </label>
+                            </center>
                         </div>
+                        <h6>Brightness</h6>
+                        <input type="range" min="0" max="100" value="100" id="brightness" />
+                        <h5>Color</h5>
+                        <h6>Hue</h6>
+                        <input type="range" min="0" max="360" value="360" id="h" />
+                        <h6>Saturation</h6>
+                        <input type="range" min="0" max="255" value="255" id="s" />
+                        <h6>Value</h6>
+                        <input type="range" min="0" max="255" value="255" id="v" />
+                        <h6>Selected Leaf (0 is all)</h6>
+                        <input type="range" min="0" max="100" value="100" id="selected-leaf" />
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 m5 l4">
+                <div class="card z-depth-2">
+                    <div class="card-content">
+                        <h4>Pattern</h4>
+                        <label>Select Pattern</label>
+                        <select class="browser-default" id="pattern">
 
-                        <!-- Twinkle Settings -->
+                        </select>
+
+                        <!-- Only show when twinkle is selected-->
                         <div class="twinkle-container">
-                            <h5>Extra Settings</h5>
-                            <h6>Twinkle Speed</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed" />
-                            <h6>Twinkle Density</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-twinkle-density" />
+                            <label>Select Twinkle Type</label>
+                            <select class="browser-default" id="twinkle-type">
+
+                            </select>
+                        </div>
+
+                        <!-- Only show when a color modify - able is selected -->
+                        <div>
+                            <label>Select Color Palette</label>
+                            <select class="browser-default" id="palette">
+
+                            </select>
+                        </div>
+
+                        <h6>Autoplay</h6>
+                        <div class="switch">
+                            <center>
+                                <label>
+                                    Off
+                                    <input type="checkbox" id="autoplay-on-off">
+                                    <span class="lever "></span>
+                                    On
+                                </label>
+                            </center>
+                        </div>
+                        <h6>Autoplay Duration</h6>
+                        <input class="range-field" type="range" min="0" max="100" value="100" id="autoplay-duration" />
+
+                        <!-- Only show if "no patten" is not selected -->
+                        <div>
+                            <h5>Pattern Settings</h5>
+                            <!-- This works for all, so never hide it :) -->
+                            <h6>Speed</h6>
+                            <input type="range" min="0" max="100" value="100" id="pattern-speed" />
+
+                            <!-- Related to fire / water I think???-->
+                            <div class="fire-container">
+                                <h5>Extra Settings</h5>
+                                <h6>Cooling</h6>
+                                <input type="range" min="0" max="100" value="100" id="patten-cooling" />
+                                <h6>sparking</h6>
+                                <input type="range" min="0" max="100" value="100" id="pattern-sparking" />
+                            </div>
+
+                            <!-- Twinkle Settings -->
+                            <div class="twinkle-container">
+                                <h5>Extra Settings</h5>
+                                <h6>Twinkle Speed</h6>
+                                <input type="range" min="0" max="100" value="100" id="pattern-twinkle-speed" />
+                                <h6>Twinkle Density</h6>
+                                <input type="range" min="0" max="100" value="100" id="pattern-twinkle-density" />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
+    <footer class="page-footer grey darken-3">
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">About This Site</h5>
+                    <p class="grey-text text-lighten-4">Lorium Ipsum</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">Important Links for Other Stuff</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="/edit.htm">Edit Website Files</a></li>
+                        <li><a class="grey-text text-lighten-3" href="/update">Upload Firmware</a></li>
+                        <li><a class="grey-text text-lighten-3" href="/wifi.htm">Set WiFi Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright grey darken-4">
+        </div>
+    </footer>
 
     <script>
         var curJson;
@@ -260,7 +294,7 @@
                 r = rgbsplits[0];
                 g = rgbsplits[1];
                 b = rgbsplits[2];
-                var hsv = RGBtoHSV(parseInt(r),parseInt(g),parseInt(b));
+                var hsv = RGBtoHSV(parseInt(r), parseInt(g), parseInt(b));
 
                 //The HSV values are percents, format them for our ui
                 h = hsv.h * 360;
@@ -309,7 +343,7 @@
 
             lights.fetchInformation(doneLoading);
 
-            $('input').on('input', function(object){
+            $('input').on('input', function (object) {
                 var tar = object.target;
                 var objectID = tar.id;
                 var objectValue = tar.value;
@@ -424,13 +458,13 @@
             It has code that applies to each slider, so it should be one function.
 
         */
-        function updateSolidColor(send){
-            var rgb = HSVtoRGB(h/360, s/255, v);
+        function updateSolidColor(send) {
+            var rgb = HSVtoRGB(h / 360, s / 255, v);
             var r, g, b;
             r = rgb.r;
             g = rgb.g;
             b = rgb.b;
-            if(send){
+            if (send) {
                 lights.setSolidColor(r, g, b);
             }
             $('.ribbon').css("background-color", "rgb(" + r + "," + g + ", " + b + ")");
