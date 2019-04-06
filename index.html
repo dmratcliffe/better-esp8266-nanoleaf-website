@@ -262,20 +262,17 @@
                 r = rgbsplits[0];
                 g = rgbsplits[1];
                 b = rgbsplits[2];
+                var hsv = RGBtoHSV(parseInt(r),parseInt(g),parseInt(b));
+                console.log(hsv);
 
-                var hsv = RGBtoHSV(r,g,b);
-                h = hsv.h;
-                s = hsv.s;
-                v = hsv.v;
-                $('#h').attr({
-                    "value": h
-                });
-                $('#s').attr({
-                    "value": s
-                });
-                $('#v').attr({
-                    "value": v
-                });
+                //The HSV values are percents, format them for our ui
+                h = hsv.h * 360;
+                s = hsv.s * 255;
+                v = hsv.v * 255;
+
+                $('#h').val(h);
+                $('#s').val(s);
+                $('#v').val(v);
 
                 //sparking
                 $('#pattern-sparking').attr({
@@ -322,15 +319,15 @@
                 switch (objectID) {
                     case 'h':
                         h = objectValue;
-                        updateSolidColor(true);
+                        updateSolidColor(false);
                         break;
                     case 's':
                         s = objectValue;
-                        updateSolidColor(true);
+                        updateSolidColor(false);
                         break;
                     case 'v':
                         v = objectValue;
-                        updateSolidColor(true);
+                        updateSolidColor(false);
                         break;
                 }
             });
@@ -436,8 +433,9 @@
             r = rgb.r;
             g = rgb.g;
             b = rgb.b;
-            if(send)
+            if(send){
                 lights.setSolidColor(r, g, b);
+            }
             $('.ribbon').css("background-color", "rgb(" + r + "," + g + ", " + b + ")");
         }
 

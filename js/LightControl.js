@@ -50,7 +50,7 @@ class LightControl {
     fetchInformation(callback) {
         $.get(this.address + "all", function (data) {
             var temp = new Array();
-            $.each(data, function (i, f) {
+            $.each(data, function (_i, f) {
                 //are we looking at an actual value or a section...
                 //because apparently /all doesn't return html
                 //but actually returns an array of HTML specifications
@@ -194,7 +194,7 @@ class LightControl {
      */
     setSolidColor(r,b,g){
         //this is a specail case, we need rgb to set a color...
-        $.post(this.address + name + "?r=" + r + "&g=" + g + "&b=" + b, {R:r, G:g, B:b}, function(data){
+        $.post(this.address + "solidColor?r=" + r + "&g=" + g + "&b=" + b, {R:r, G:g, B:b}, function(data){
             return data;
         });
     }
