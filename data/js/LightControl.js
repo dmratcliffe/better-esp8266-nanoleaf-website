@@ -85,6 +85,17 @@ class LightControl {
     }
 
     /**
+     * 
+     * TODO:
+     * These setters should have getters too.
+     * Because of how its setup, it should return the array of values,
+     * the getters will just make it more functional if the way of fetching JSON
+     * is changed, making it so no classes have hard coded values.
+     * Other stuff takes precident tho... Pattern designer is more fun :)
+     * 
+     */
+
+    /**
      * Changes the all leafs functions. This makes it so colors
      * effect all leafs
      * @see  setterHelper
