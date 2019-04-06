@@ -177,8 +177,6 @@
         function doneLoading(data) {
             //clear the selects (prevents wild duplication)
             $('select').find('option').remove().end();
-
-            console.log(data);
             curJson = data;
             if (data !== undefined) {
 
@@ -263,7 +261,6 @@
                 g = rgbsplits[1];
                 b = rgbsplits[2];
                 var hsv = RGBtoHSV(parseInt(r),parseInt(g),parseInt(b));
-                console.log(hsv);
 
                 //The HSV values are percents, format them for our ui
                 h = hsv.h * 360;
