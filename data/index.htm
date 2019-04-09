@@ -5,7 +5,7 @@
 
     <!-- On Android / Chrome This allows it to pretend to be an app when on your homescreen -->
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#208899">
+    <meta name="theme-color" content="#005566">
 
     <!-- Materialize Sylesheets & Javascript -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -128,7 +128,7 @@
                         </div>
 
                         <!-- Only show when a color modify - able is selected -->
-                        <div>
+                        <div class="palette-container">
                             <label>Select Color Palette</label>
                             <select class="browser-default" id="palette">
 
@@ -146,15 +146,21 @@
                                 </label>
                             </center>
                         </div>
-                        <h6>Autoplay Duration</h6>
-                        <input class="range-field" type="range" min="0" max="100" value="100" id="autoplay-duration" />
+                        <div class="autoplay-container">
+                            <h6>Autoplay Duration</h6>
+                            <input class="range-field" type="range" min="0" max="100" value="100"
+                                id="autoplay-duration" />
+                        </div>
 
                         <!-- Only show if "no patten" is not selected -->
                         <div>
                             <h5>Pattern Settings</h5>
                             <!-- This works for all, so never hide it :) -->
-                            <h6>Speed</h6>
-                            <input type="range" min="0" max="100" value="100" id="pattern-speed" />
+                            <!-- Apparently that was a lie... -->
+                            <div class="speed-container">
+                                <h6>Speed</h6>
+                                <input type="range" min="0" max="100" value="100" id="pattern-speed" />
+                            </div>
 
                             <!-- Related to fire / water I think???-->
                             <div class="fire-container">
@@ -187,9 +193,14 @@
                 <div class="col l6 s12">
                     <h5 class="white-text">About This Site</h5>
                     <p class="grey-text text-lighten-4">
-                        This site itself is made by <a class="cyan-text text-lighten-3" href="https://github.com/dmratcliffe/better-esp8266-nanoleaf-website">dmratcliffe</a>
+                        This site itself is made by <a class="cyan-text text-lighten-3"
+                            href="https://github.com/dmratcliffe/better-esp8266-nanoleaf-website">dmratcliffe</a>
                         <br>
-                        For the ESP code its a mixture of the FastLed-Webserver by <a class="cyan-text text-lighten-3" href="https://github.com/jasoncoon/esp8266-fastled-webserver">jasoncoon</a> and the modifications made by <a class="cyan-text text-lighten-3" href="https://github.com/NimmLor/esp8266-nanoleaf-webserver">NimmLor</a> to support NanoLeaf style lights.
+                        For the ESP code its a mixture of the FastLed-Webserver by <a class="cyan-text text-lighten-3"
+                            href="https://github.com/jasoncoon/esp8266-fastled-webserver">jasoncoon</a> and the
+                        modifications made by <a class="cyan-text text-lighten-3"
+                            href="https://github.com/NimmLor/esp8266-nanoleaf-webserver">NimmLor</a> to support
+                        NanoLeaf style lights.
                         <br>
                         You should know all that: you installed it, right?
                     </p>
@@ -211,6 +222,11 @@
     <script>
         var curJson;
         var h = 0, s = 255, v = 255;
+
+        var paletteEnabled = ["Confetti", "Beat", "Sinleon"];
+        var speedEnabled = [];
+
+
         function doneLoading(data) {
             //clear the selects (prevents wild duplication)
             $('select').find('option').remove().end();
@@ -235,8 +251,10 @@
                 });
                 if (data.autoplay.value == 1) {
                     $('#autoplay-on-off').prop("checked", true);
+                    $('.autoplay-container').show();
                 } else {
                     $('#autoplay-on-off').prop("checked", false);
+                    $('.autoplay-container').hide();
                 }
 
                 //Brightness
@@ -268,9 +286,9 @@
                         if (i == data.pattern.value) {
                             isTwinkle = true;
                         }
-                        $('#twinkle-type').append('<option value="' + i + '">' + d + '</option>');
+                        $('#twinkle-type').append('<option value="' + i + '" id="d' + i + '">' + d + '</option>');
                     } else {
-                        $('#pattern').append('<option value="' + i + '">' + d + '</option>');
+                        $('#pattern').append('<option value="' + i + '" id="d' + i + '">' + d + '</option>');
                     }
                 });
                 $('#pattern').append('<option value="twinkle">Twinkles...</option>');
@@ -377,6 +395,14 @@
                         break;
                     case 'autoplay-on-off':
                         lights.toggleAutoplay(curJson.autoplay.value);
+                        if (tar.checked) {
+                            console.log("On");
+                            $('.autoplay-container').show();
+                        } else {
+                            $('.autoplay-container').hide();
+                        }
+                        //TODO: add some sort of update to show the current pattern in autoplay mode
+                        //Probably just a timer that is thesame speed and loops through
                         break;
                     case 'brightness':
                         lights.setBrightness(objectValue);
@@ -440,6 +466,14 @@
                             } else {
                                 $('.fire-container').hide();
                             }
+
+                            $('.palette-container').hide();
+                            var paletteName = $('#d' + objectValue).html();
+                            console.log(paletteName);
+                            if(paletteName.includes(paletteName)){
+                                $('.palette-container').show();
+                            }
+
                             lights.setPattern(objectValue);
                         }
 
@@ -456,10 +490,10 @@
         });
 
         /*
-
+ 
             This function just handles the update of the solid color.
             It has code that applies to each slider, so it should be one function.
-
+ 
         */
         function updateSolidColor(send) {
             var rgb = HSVtoRGB(h / 360, s / 255, v);
@@ -476,7 +510,7 @@
         /*
             These scripts I take no credit from. They come from this stack overflow: https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately
             With credit to: "Parthik Gosar" for point to this blog: http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
-
+ 
             HSV - RGB is hard :(
                 However for lighting situations like this, its very useful as Hue is the mostly the one we want to seperate.
         */
