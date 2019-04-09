@@ -457,26 +457,29 @@
                 var objectValue = tar.value;
                 switch (objectID) {
                     case 'pattern':
+                        $('.palette-container').hide();
+                        $('.speed-container').hide();
+                        $('.fire-container').hide();
+                        $('.twinkle-container').hide();
+
+                        var paletteName = $('#d' + objectValue).html();
+
+                        console.log(paletteName);
+                        if (paletteName.includes(paletteName)) {
+                            $('.palette-container').show();
+                        }
+                        if (speedEnabled.includes(paletteName)) {
+                            $('.speed-contianer').show();
+                        }
+                        if (paletteName == "Fire" || paletteName == "Water") {
+                            $('.fire-container').show();
+                        }
                         if (objectValue == "twinkle") {
                             $('.twinkle-container').show();
-                        } else {
-                            $('.twinkle-container').hide();
-                            if (objectValue == 27 || objectValue == 28) { //this is fire and water
-                                $('.fire-container').show();
-                            } else {
-                                $('.fire-container').hide();
-                            }
-
-                            $('.palette-container').hide();
-                            var paletteName = $('#d' + objectValue).html();
-                            console.log(paletteName);
-                            if(paletteName.includes(paletteName)){
-                                $('.palette-container').show();
-                            }
-
-                            lights.setPattern(objectValue);
+                            break;
                         }
 
+                        lights.setPattern(objectValue);
                         break;
                     case 'twinkle-type':
                         lights.setPattern(objectValue);
