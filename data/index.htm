@@ -457,26 +457,29 @@
                 var objectValue = tar.value;
                 switch (objectID) {
                     case 'pattern':
-                        $('.palette-container').hide();
-                        $('.speed-container').hide();
-                        $('.fire-container').hide();
-                        $('.twinkle-container').hide();
-
                         var paletteName = $('#d' + objectValue).html();
 
-                        console.log(paletteName);
+                        //Make some decisions.
                         if (paletteName.includes(paletteName)) {
                             $('.palette-container').show();
+                        } else {
+                            $('.palette-container').hide();
                         }
                         if (speedEnabled.includes(paletteName)) {
                             $('.speed-contianer').show();
+                        }else{
+                            $('.speed-container').hide();
                         }
                         if (paletteName == "Fire" || paletteName == "Water") {
                             $('.fire-container').show();
+                        }else{
+                            $('.fire-container').hide();
                         }
                         if (objectValue == "twinkle") {
                             $('.twinkle-container').show();
-                            break;
+                            break; //We don't want to set the pattern. or maybe we do: TODO when twinkle is selected automatically select first twinkle...
+                        }else{
+                            $('.twinkle-container').hide();
                         }
 
                         lights.setPattern(objectValue);
