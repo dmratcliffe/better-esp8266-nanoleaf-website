@@ -471,7 +471,7 @@
                         var paletteName = $('#d' + objectValue).html();
 
                         //Make some decisions.
-                        if (paletteName.includes(paletteName)) {
+                        if (paletteEnabled.includes(paletteName)) {
                             $('.palette-container').show();
                         } else {
                             $('.palette-container').hide();
@@ -507,10 +507,10 @@
         });
 
         /*
- 
+
             This function just handles the update of the solid color.
             It has code that applies to each slider, so it should be one function.
- 
+
         */
         function updateSolidColor(send) {
             var rgb = HSVtoRGB(h / 360, s / 255, v);
@@ -527,7 +527,7 @@
         /*
             These scripts I take no credit from. They come from this stack overflow: https://stackoverflow.com/questions/17242144/javascript-convert-hsb-hsv-color-to-rgb-accurately
             With credit to: "Parthik Gosar" for point to this blog: http://axonflux.com/handy-rgb-to-hsl-and-rgb-to-hsv-color-model-c
- 
+
             HSV - RGB is hard :(
                 However for lighting situations like this, its very useful as Hue is the mostly the one we want to seperate.
         */
