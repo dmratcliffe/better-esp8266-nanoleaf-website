@@ -297,7 +297,8 @@
                         //Probably just a timer that is thesame speed and loops through
                         break;
                     case 'brightness':
-                        lights.setBrightness(htmlValue);
+                        logBrightness(htmlValue);
+                        //lights.setBrightness(htmlValue);
                         break;
                     case 'h':
                         h = htmlValue;
@@ -534,6 +535,14 @@
                 });
 
             }
+        }
+
+        /*
+            A logmarithmic function to chaneg brightness
+        */
+        function logBrightness(brightness){
+            var b = 100-(log(101-brightness)*(100/2));
+            lights.setBrightness(b);
         }
 
         /*
