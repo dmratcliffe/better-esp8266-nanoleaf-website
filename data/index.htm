@@ -237,7 +237,169 @@
         var paletteEnabled = ["Confetti", "Beat", "Sinleon"];
         var speedEnabled = [];
 
+        let lights = new LightControl();
+        //we want the document to load before we start doing stuff
+        //the fetch information will almost always take longer then document
+        //load so in the future I might compare speeds with it in and out of document load.
+        $(document).ready(function () {
 
+            lights.fetchInformation(doneLoading);
+
+
+            //This immediately updates instead of waiting for it to finish
+            //There should be NO code to contact the ESP web server in here.
+            //That will result in a DOS attack and could damage the poor ESP.
+            $('input').on('input', function (object) {
+                var htmlTarget = object.target;
+                var html = htmlTarget.id;
+                var htmlValue = htmlTarget.value;
+                switch (html) {
+                    case 'h':
+                        h = htmlValue;
+                        updateSolidColor(false);
+                        break;
+                    case 's':
+                        s = htmlValue;
+                        updateSolidColor(false);
+                        break;
+                    case 'v':
+                        v = htmlValue;
+                        updateSolidColor(false);
+                        break;
+                }
+            });
+
+            //This fetches the change event for all of the elements on "input"
+            //Then just switch on the ID's of each to find what data we want
+            //to change and then change it.
+            $('input').change(function (object) {
+
+                //Get some information about the object
+                //that called the change function.
+                var htmlTarget = object.target;
+                var html = htmlTarget.id;
+                var htmlValue = htmlTarget.value;
+
+                //do the work
+                switch (html) {
+                    case 'on-off':
+                        lights.togglePower(curJson.power.value);
+                        break;
+                    case 'autoplay-on-off':
+                        lights.toggleAutoplay(curJson.autoplay.value);
+                        if (tar.checked) {
+                            console.log("On");
+                            $('.autoplay-container').show();
+                        } else {
+                            $('.autoplay-container').hide();
+                        }
+                        //TODO: add some sort of update to show the current pattern in autoplay mode
+                        //Probably just a timer that is thesame speed and loops through
+                        break;
+                    case 'brightness':
+                        lights.setBrightness(htmlValue);
+                        break;
+                    case 'h':
+                        h = htmlValue;
+                        updateSolidColor(true);
+                        break;
+                    case 's':
+                        s = htmlValue;
+                        updateSolidColor(true);
+                        break;
+                    case 'v':
+                        v = htmlValue;
+                        updateSolidColor(true);
+                        break;
+                    case 'selected-leaf':
+                        if (htmlValue == 0) {
+                            lights.setAllLeafs(1);
+                        } else {
+                            lights.setAllLeafs(0);
+                            lights.setSelectedLeaf(htmlValue);
+                        }
+                        break;
+                    case 'pattern-speed':
+                        lights.setSpeed(htmlValue);
+                        break;
+                    case 'autoplay-duration':
+                        lights.setAutoplayDuration(htmlValue);
+                        break;
+                    case 'patten-cooling':
+                        lights.setCooling(htmlValue);
+                        break;
+                    case 'pattern-sparking':
+                        lights.setSparking(htmlValue);
+                        break;
+                    case 'pattern-twinkle-speed':
+                        lights.setTwinkleSpeed(htmlValue);
+                        break;
+                    case 'pattern-twinkle-density':
+                        lights.setTwinkleDensity(htmlValue);
+                        break;
+                }
+                //TODO: this should probably be staggered. some sort of stack? pop off every 300ms
+                lights.fetchInformation(doneLoading);
+            });
+
+            //Since the selects are not 'input' tags, we need another hook
+            $('select').change(function (object) {
+                //Get some information about the object
+                //that called the change function.
+                var htmlTarget = object.target;
+                var html = htmlTarget.id;
+                var htmlValue = htmlTarget.value;
+
+                //switch that does work
+                switch (html) {
+                    case 'pattern':
+                        var patternName = $('#d' + htmlValue).html();
+
+                        //Make some decisions based on the patterns that should be visible.
+                        //This uses the palette name because the pattern ID could be changed
+                        //if more patterns are added.
+                        if (paletteEnabled.includes(patternName)) {
+                            $('.palette-container').show();
+                        } else {
+                            $('.palette-container').hide();
+                        }
+                        if (speedEnabled.includes(patternName)) {
+                            $('.speed-contianer').show();
+                        }else{
+                            $('.speed-container').hide();
+                        }
+                        if (patternName == "Fire" || patternName == "Water") {
+                            $('.fire-container').show();
+                        }else{
+                            $('.fire-container').hide();
+                        }
+                        if (htmlValue == "twinkle") {
+                            $('.twinkle-container').show();
+                            break; //We don't want to set the pattern. or maybe we do: TODO when twinkle is selected automatically select first twinkle...
+                        }else{
+                            $('.twinkle-container').hide();
+                        }
+
+                        lights.setPattern(htmlValue);
+                        break;
+                    case 'twinkle-type':
+                        lights.setPattern(htmlValue);
+                        break;
+                    case 'palette':
+                        lights.setPalette(htmlValue);
+                        break;
+                }
+            });
+
+        });
+
+        /*
+
+            This function is used to callback to once the data is fetched from the esp.
+            Currently it takes in JSON data but in the future this will probably call
+            a bunch of functions (the get functions aren't done yet in the lights class)
+
+        */
         function doneLoading(data) {
             //clear the selects (prevents wild duplication)
             $('select').find('option').remove().end();
@@ -317,8 +479,11 @@
                     $('#on-off').prop("checked", false);
                 }
 
-                //Solid color
+                //Solid color is set as the background thingy
                 $('.ribbon').css("background-color", "rgb(" + data.solidColor.value + ")");
+
+                //The RGB color is given like '255, 255, 255'
+                //so split it to get the r, g, b values.
                 var rgb = data.solidColor.value;
                 var rgbsplits = rgb.split(',');
 
@@ -326,9 +491,12 @@
                 r = rgbsplits[0];
                 g = rgbsplits[1];
                 b = rgbsplits[2];
+
+                //We need HSV to set the sliders up
                 var hsv = RGBtoHSV(parseInt(r), parseInt(g), parseInt(b));
 
                 //The HSV values are percents, format them for our ui
+                //TODO: get the ranges from ui, or change this since the values are pretty arbitrary
                 h = hsv.h * 360;
                 s = hsv.s * 255;
                 v = hsv.v * 255;
@@ -367,144 +535,6 @@
 
             }
         }
-        let lights = new LightControl();
-        //we want the document to load before we start doing stuff
-        //the fetch information will almost always take longer then document
-        //load so in the future I might compare speeds with it in and out of document load.
-        $(document).ready(function () {
-
-            lights.fetchInformation(doneLoading);
-
-            $('input').on('input', function (object) {
-                var tar = object.target;
-                var objectID = tar.id;
-                var objectValue = tar.value;
-                switch (objectID) {
-                    case 'h':
-                        h = objectValue;
-                        updateSolidColor(false);
-                        break;
-                    case 's':
-                        s = objectValue;
-                        updateSolidColor(false);
-                        break;
-                    case 'v':
-                        v = objectValue;
-                        updateSolidColor(false);
-                        break;
-                }
-            });
-
-            //pretty much all inputs
-            $('input').change(function (object) {
-                var tar = object.target;
-                var objectID = tar.id;
-                var objectValue = tar.value;
-                switch (objectID) {
-                    case 'on-off':
-                        lights.togglePower(curJson.power.value);
-                        break;
-                    case 'autoplay-on-off':
-                        lights.toggleAutoplay(curJson.autoplay.value);
-                        if (tar.checked) {
-                            console.log("On");
-                            $('.autoplay-container').show();
-                        } else {
-                            $('.autoplay-container').hide();
-                        }
-                        //TODO: add some sort of update to show the current pattern in autoplay mode
-                        //Probably just a timer that is thesame speed and loops through
-                        break;
-                    case 'brightness':
-                        lights.setBrightness(objectValue);
-                        break;
-                    case 'h':
-                        h = objectValue;
-                        updateSolidColor(true);
-                        break;
-                    case 's':
-                        s = objectValue;
-                        updateSolidColor(true);
-                        break;
-                    case 'v':
-                        v = objectValue;
-                        updateSolidColor(true);
-                        break;
-                    case 'selected-leaf':
-                        if (objectValue == 0) {
-                            lights.setAllLeafs(1);
-                        } else {
-                            lights.setAllLeafs(0);
-                            lights.setSelectedLeaf(objectValue);
-                        }
-                        break;
-                    case 'pattern-speed':
-                        lights.setSpeed(objectValue);
-                        break;
-                    case 'autoplay-duration':
-                        lights.setAutoplayDuration(objectValue);
-                        break;
-                    case 'patten-cooling':
-                        lights.setCooling(objectValue);
-                        break;
-                    case 'pattern-sparking':
-                        lights.setSparking(objectValue);
-                        break;
-                    case 'pattern-twinkle-speed':
-                        lights.setTwinkleSpeed(objectValue);
-                        break;
-                    case 'pattern-twinkle-density':
-                        lights.setTwinkleDensity(objectValue);
-                        break;
-                }
-                //TODO: this should probably be staggered. some sort of stack? pop off every 300ms
-                lights.fetchInformation(doneLoading);
-            });
-
-            //the drop down boxes
-            $('select').change(function (object) {
-                var tar = object.target;
-                var objectID = tar.id;
-                var objectValue = tar.value;
-                switch (objectID) {
-                    case 'pattern':
-                        var paletteName = $('#d' + objectValue).html();
-
-                        //Make some decisions.
-                        if (paletteEnabled.includes(paletteName)) {
-                            $('.palette-container').show();
-                        } else {
-                            $('.palette-container').hide();
-                        }
-                        if (speedEnabled.includes(paletteName)) {
-                            $('.speed-contianer').show();
-                        }else{
-                            $('.speed-container').hide();
-                        }
-                        if (paletteName == "Fire" || paletteName == "Water") {
-                            $('.fire-container').show();
-                        }else{
-                            $('.fire-container').hide();
-                        }
-                        if (objectValue == "twinkle") {
-                            $('.twinkle-container').show();
-                            break; //We don't want to set the pattern. or maybe we do: TODO when twinkle is selected automatically select first twinkle...
-                        }else{
-                            $('.twinkle-container').hide();
-                        }
-
-                        lights.setPattern(objectValue);
-                        break;
-                    case 'twinkle-type':
-                        lights.setPattern(objectValue);
-                        break;
-                    case 'palette':
-                        lights.setPalette(objectValue);
-                        break;
-                }
-            });
-
-        });
 
         /*
 
